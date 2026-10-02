@@ -244,7 +244,10 @@
         { nombre: 'energia', archivos: [
           { nombre: 'generador.exe', tam: 2.2, accion: 'energia' },
           { nombre: 'respaldo.bat', tam: 0.7, texto: 'REM Generador de respaldo\nnivel_combustible = 0%\n\nREM Alguien olvidó recargarlo. Otra vez.' },
-          { nombre: 'consumo.log', tam: 1.4, texto: '04:12  consumo normal\n04:31  pico en cercas eléctricas\n04:33  caída total de energía\n04:33  cerraduras magnéticas: SIN ENERGÍA\n04:34  modo de emergencia activado' }
+          { nombre: 'consumo.log', tam: 1.4, texto: '04:12  consumo normal\n04:31  pico en cercas eléctricas\n04:33  caída total de energía\n04:33  cerraduras magnéticas: SIN ENERGÍA\n04:34  modo de emergencia activado' },
+          // ✏️ AGREGADO POR MÍ (reto 4): archivo que regala 20 segundos, una sola vez.
+          //    Usa la regla nueva 'tiempoExtra' que está más abajo, en REGLAS.
+          { nombre: 'turbo.bat', tam: 1.5, accion: 'tiempoExtra' }
         ]},
         { nombre: 'red', archivos: [
           { nombre: 'telefonos.sys', tam: 1.0, texto: 'Líneas externas: sin señal.\nCausa probable: tormenta tropical sobre la isla.\nPróximo barco de suministros: en 3 días.' },
@@ -253,12 +256,17 @@
         ]}
       ]},
       { nombre: 'seguridad', hijos: [
-        { nombre: 'puertas', clave: 'TRUFA', archivos: [
+        // ✏️ MODIFICADO POR MÍ: la clave era MARCY, ahora es MANCHAS.
+        //    (También cambié la placa del collar en personal/tecnico_ruiz/perrita.jpg)
+        { nombre: 'puertas', clave: 'MANCHAS', archivos: [
           { nombre: 'control.lck', tam: 1.3, accion: 'puertaControl' },
           { nombre: 'cocina.lck', tam: 0.9, accion: 'cerrar', texto: 'Cerradura de la cocina: CERRADA.\nBuena idea en general, pero tú estás en la sala de control.' },
           { nombre: 'raptores.lck', tam: 1.1, accion: 'cerrar', texto: 'Error: la reja del recinto de raptores está abierta y el recinto está vacío.\nCerrarla ahora no sirve de mucho.' }
         ]},
-        { nombre: 'camaras', archivos: [
+        // ✏️ MODIFICADO POR MÍ (reto 5): esta carpeta antes era libre, ahora pide clave.
+        //    La pista está partida en dos archivos de recintos/herbivoros:
+        //    usuario.cfg dice QUÉ buscar y dieta.txt dice la respuesta (HELECHO).
+        { nombre: 'camaras', clave: 'HELECHO', archivos: [
           { nombre: 'pasillo.cam', tam: 1.8, accion: 'camPasillo' },
           { nombre: 'cocina.cam', tam: 1.2, texto: 'Cámara de la cocina:\nsin movimiento.\nUna charola de pan dulce intacta sobre la mesa.' },
           { nombre: 'recinto.cam', tam: 1.5, texto: 'Cámara del recinto R-3:\nreja abierta.\nHuellas de tres pares de patas que salen hacia el edificio de visitantes.' }
@@ -273,18 +281,30 @@
         { nombre: 'herbivoros', archivos: [
           { nombre: 'estado.txt', tam: 0.9, texto: 'Recinto H-1\nCerca: DESACTIVADA\nOcupantes: 11 de 11\nComportamiento: comiendo helechos, sin preocupaciones.' },
           { nombre: 'manada.log', tam: 1.2, texto: 'La manada durmió junto al lago.\nNada que reportar.\nQué envidia.' },
-          { nombre: 'dieta.txt', tam: 0.6, texto: 'Helechos: 400 kg por día.\nAgua: mucha.\nPresupuesto: insuficiente.' }
+          { nombre: 'dieta.txt', tam: 0.6, texto: 'Helechos: 400 kg por día.\nAgua: mucha.\nPresupuesto: insuficiente.' },
+          // ✏️ AGREGADO POR MÍ: la pista de la clave de las cámaras.
+          { nombre: 'usuario.cfg', tam: 0.5, texto: 'Usuario: vigilancia\nClave de camaras: el nombre de la planta\nque comen los herbivoros, en singular y mayusculas.\n\n(Ver dieta.txt en esta misma carpeta.)' }
+        ]},
+        // ✏️ AGREGADO POR MÍ (reto 3): carpeta nueva completa.
+        //    Explica de dónde salieron los tres raptores que nadie esperaba.
+        { nombre: 'laboratorio', archivos: [
+          { nombre: 'muestras.dna', tam: 1.1, texto: 'Inventario de muestras genéticas:\n- ámbar con mosquito: 340 piezas\n- ADN completo: 12 especies\n- ADN incompleto: 3 especies\n\nNota: los huecos se rellenaron con ADN de rana.' },
+          { nombre: 'incidencias.log', tam: 1.7, texto: '03/06  ejemplar R-2 cambió de sexo\n03/06  se reporta al área de genética\n04/06  genética responde: "imposible"\n11/06  se detectan 3 huevos en el recinto R-3' },
+          { nombre: 'ranas.txt', tam: 0.6, texto: 'Las ranas del género Hyperolius pueden cambiar de sexo\nen ambientes donde no hay machos.\n\nAlguien debería haber leído esto antes.' }
         ]}
       ]},
       { nombre: 'personal', hijos: [
         { nombre: 'tecnico_ruiz', archivos: [
           { nombre: 'nota.txt', tam: 0.8, texto: 'Recordatorio para mí:\nya no uso mi fecha de nacimiento como clave.\nAhora es el nombre de mi perrita.\nNadie lo va a adivinar.' },
-          { nombre: 'perrita.jpg', tam: 2.0, texto: '[imagen]\nUna beagle sentada sobre el teclado de la sala de control.\nSu collar tiene una placa grabada: TRUFA.' },
+          // ✏️ MODIFICADO POR MÍ: la placa decía MARCY, ahora dice MANCHAS.
+          { nombre: 'perrita.jpg', tam: 2.0, texto: '[imagen]\nUna beagle sentada sobre el teclado de la sala de control.\nSu collar tiene una placa grabada: MANCHAS.' },
           { nombre: 'arcade.exe', tam: 1.4, accion: 'arcade' }
         ]},
         { nombre: 'directora_vega', archivos: [
           { nombre: 'memo.txt', tam: 1.1, texto: 'Memo interno\n\nTodas las cerraduras magnéticas del edificio dependen del generador principal.\nSi se va la luz, las puertas se quedan abiertas.\nYa pedí presupuesto para arreglarlo.' },
           { nombre: 'agenda.txt', tam: 0.7, texto: 'Lunes: inspección de cercas\nMartes: visita de inversionistas\nMiércoles: recordarle a Ruiz lo de las claves (otra vez)' },
+          // ✏️ AGREGADO POR MÍ (reto 2): pista falsa. Parece útil y no sirve para nada.
+          { nombre: 'respaldo.txt', tam: 0.8, texto: 'Clave maestra del sistema: 1234\n\n(Esta clave dejó de funcionar en 2019.\nRuiz nunca actualizó el documento.)' },
           { nombre: 'claves.txt', tam: 0.5, texto: 'Acceso denegado.\nEste archivo solo lo puede leer la directora.\n(Buen intento.)' }
         ]},
         { nombre: 'director_John', archivos: [
@@ -299,11 +319,13 @@
   // Color de cada bloque según el tipo de archivo (su extensión).
   // ✏️ Si inventas una extensión nueva (por ejemplo .mp3), agrégala aquí con su color.
   const TIPOS = {
-    exe: { color: '#f0a830', nombre: 'programa' },   bat: { color: '#d98a3a', nombre: 'script' },
-    txt: { color: '#8fd3f4', nombre: 'texto' },      log: { color: '#6fc2a0', nombre: 'bitácora' },
-    lck: { color: '#e2574c', nombre: 'cerradura' },  cam: { color: '#b88ce8', nombre: 'cámara' },
-    sys: { color: '#c9d4e3', nombre: 'sistema' },    cfg: { color: '#aab8cc', nombre: 'configuración' },
-    jpg: { color: '#f2b8cf', nombre: 'imagen' }
+    exe: { color: '#8882c2', nombre: 'programa' },   bat: { color: '#d98a3a', nombre: 'script' },
+    txt: { color: '#221e45', nombre: 'texto' },      log: { color: '#6fc2a0', nombre: 'bitácora' },
+    lck: { color: '#2c1e45', nombre: 'cerradura' },  cam: { color: '#b88ce8', nombre: 'cámara' },
+    sys: { color: '#361e45', nombre: 'sistema' },    cfg: { color: '#aab8cc', nombre: 'configuración' },
+    jpg: { color: '#f2b8cf', nombre: 'imagen' },
+    // ✏️ AGREGADO POR MÍ: tipo nuevo, para los archivos .dna del laboratorio.
+    dna: { color: '#7ee787', nombre: 'genético' }
   };
   // 💡 "Función flecha": una forma corta de escribir una función.
   //    extension('nota.txt') → corta el texto en cada punto y toma el último pedazo → 'txt'
@@ -814,7 +836,7 @@ function pedirClave(n, despues) {
 function revisarClave() {
   const p = J.pendiente; if (!p) return;
   // trim() quita espacios de los lados; toUpperCase() convierte a mayúsculas.
-  // Así "trufa", " Trufa " y "TRUFA" cuentan igual.
+  // Así "manchas", " Manchas " y "MANCHAS" cuentan igual.
   const escrita = $('campo-clave').value.trim().toUpperCase();
   if (!escrita) { $('clave-error').textContent = 'Escribe una clave primero.'; return; }
   if (escrita !== p.nodo.clave) {
@@ -871,6 +893,18 @@ const REGLAS = {
     //    Cada paso espera i * 500 ms: 0, 500, 1000... y así parece una cuenta regresiva.
     pasos.forEach((p, i) => setTimeout(() => { if (!J.fin) escribir(p, 'aviso'); }, i * 500));
     setTimeout(() => { if (!J.fin) restaurarEnergia(); }, pasos.length * 500);
+  },
+  // ✏️ AGREGADO POR MÍ (reto 4): regla nueva que usa el archivo turbo.bat.
+  //    Le suma 20 segundos al reloj, pero solo la primera vez que lo ejecutas.
+  //    💡 Truco: el reloj mide "ahora menos J.inicio". Si atraso J.inicio 20000 ms
+  //       (20 segundos), la resta da menos y por eso queda más tiempo.
+  tiempoExtra() {
+    if (J.bonoUsado) { escribir('El sistema ya está al máximo. No se puede otra vez.', 'tenue'); return; }
+    J.bonoUsado = true;
+    J.inicio += 20000;
+    escribir('Derivando energía de las cercas al sistema de puertas...', 'aviso');
+    escribir('+20 segundos.', 'aviso');
+    sonido.exito();
   },
   puertaControl() {
     if (!J.energia) {
@@ -930,7 +964,9 @@ function pintarPlataformas() {
       parecido al tick() de A-Frame.
    💡 performance.now() da la hora exacta en milisegundos. Restamos la hora de
       inicio para saber cuánto tiempo pasó de verdad, aunque haya cuadros lentos. */
-const metros = () => Math.max(0, Math.ceil(METROS_INICIALES * J.restante / DURACION));
+// ✏️ MODIFICADO POR MÍ: le agregué Math.min para que, con los 20 segundos extra
+//    de turbo.bat, el medidor no marque más de 60 m (que es el máximo).
+const metros = () => Math.min(METROS_INICIALES, Math.max(0, Math.ceil(METROS_INICIALES * J.restante / DURACION)));
 // J.avisosDados (un Set = lista sin repetidos) recuerda qué eventos ya pasaron,
 // para que cada uno suene una sola vez.
 const EVENTOS = [   // ✏️ cosas que pasan cuando los raptores llegan a cierta distancia
@@ -947,7 +983,8 @@ function cadaCuadro() {
   // Minutos:segundos. padStart(2,'0') convierte 5 en "05" → "2:05"
   $('reloj').textContent = Math.floor(seg / 60) + ':' + String(seg % 60).padStart(2, '0');
   $('metros').textContent = m + ' m';
-  $('relleno').style.width = (100 * J.restante / DURACION) + '%';
+  // ✏️ MODIFICADO POR MÍ: Math.min para que la barra no se pase del 100% con el tiempo extra.
+  $('relleno').style.width = Math.min(100, 100 * J.restante / DURACION) + '%';
   $('relleno').classList.toggle('critico', m <= 15);
   EVENTOS.forEach(ev => {
     if (m <= ev.m && !J.avisosDados.has(ev)) {
