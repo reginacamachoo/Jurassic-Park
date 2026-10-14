@@ -247,7 +247,11 @@
           { nombre: 'consumo.log', tam: 1.4, texto: '04:12  consumo normal\n04:31  pico en cercas eléctricas\n04:33  caída total de energía\n04:33  cerraduras magnéticas: SIN ENERGÍA\n04:34  modo de emergencia activado' },
           // ✏️ AGREGADO POR MÍ (reto 4): archivo que regala 20 segundos, una sola vez.
           //    Usa la regla nueva 'tiempoExtra' que está más abajo, en REGLAS.
-          { nombre: 'turbo.bat', tam: 1.5, accion: 'tiempoExtra' }
+          { nombre: 'turbo.bat', tam: 1.5, accion: 'tiempoExtra' },
+                    // ✏️ AGREGADO POR REGGIE: trampa, quita 15 segundos
+          { nombre: 'alarma.sys', tam: 1.9, accion: 'alarmaFalsa' },
+          // ✏️ AGREGADO POR REGGIE: escáner, solo sirve con energía
+          { nombre: 'escaner.exe', tam: 2.4, accion: 'escanear' }
         ]},
         { nombre: 'red', archivos: [
           { nombre: 'telefonos.sys', tam: 1.0, texto: 'Líneas externas: sin señal.\nCausa probable: tormenta tropical sobre la isla.\nPróximo barco de suministros: en 3 días.' },
@@ -905,6 +909,33 @@ const REGLAS = {
     escribir('Derivando energía de las cercas al sistema de puertas...', 'aviso');
     escribir('+20 segundos.', 'aviso');
     sonido.exito();
+  },
+    // ✏️ AGREGADO POR REGGIE: la trampa del reloj.
+  //    💡 Si atrasar J.inicio da más tiempo, adelantarlo lo quita. Mismo truco, al revés.
+  alarmaFalsa() {
+    if (J.alarmaSonada) { escribir('La alarma ya se disparó. El daño está hecho.', 'tenue'); return; }
+    J.alarmaSonada = true;
+    J.inicio -= 15000;
+    escribir('Alarma de evacuación activada por error.', 'error');
+    escribir('El ruido los atrajo. −15 segundos.', 'error');
+    sonido.error();
+  },
+  // ✏️ AGREGADO POR REGGIE: escáner del perímetro.
+  //    Reutiliza metros(), la función que ya existía para el medidor.
+  escanear(a) {
+    if (!J.energia) {
+      escribir('scan: sin energía no hay sensores.', 'error');
+      sonido.error();
+      return;
+    }
+    const m = metros();
+    const seg = Math.ceil(J.restante);
+    mostrar(a.nombre,
+      `ESCÁNER PERIMETRAL\n\n` +
+      `Raptores: ${m} m de la sala de control.\n` +
+      `Tiempo restante: ${seg} s.\n\n` +
+      (m < 20 ? 'Recomendación: cierra la puerta. Ya.'
+              : 'Recomendación: sigue buscando la clave.'));
   },
   puertaControl() {
     if (!J.energia) {
